@@ -1,27 +1,8 @@
 import { GetStaticProps } from 'next';
 
 import Prismic from '@prismicio/client';
-import { HomeTemplate } from '../templates/Home';
+import { HomeProps, HomeTemplate } from '../templates/Home';
 import { getPrismicClient } from '../services/prismic';
-
-type Post = {
-  uid?: string;
-  first_publication_date: string | null;
-  data: {
-    title: string;
-    subtitle: string;
-    author: string;
-  };
-};
-
-type PostPagination = {
-  next_page: string;
-  results: Post[];
-};
-
-type HomeProps = {
-  postsPagination: PostPagination;
-};
 
 export default function Home({ postsPagination }: HomeProps): JSX.Element {
   return <HomeTemplate postsPagination={postsPagination} />;

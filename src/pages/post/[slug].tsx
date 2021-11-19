@@ -2,29 +2,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Prismic from '@prismicio/client';
 import { useRouter } from 'next/router';
 import { getPrismicClient } from '../../services/prismic';
-import { PostTemplate } from '../../templates/Post';
-
-type Post = {
-  first_publication_date: string | null;
-  data: {
-    title: string;
-    banner: {
-      url: string;
-      alt: string;
-    };
-    author: string;
-    content: {
-      heading: string;
-      body: {
-        text: string;
-      }[];
-    }[];
-  };
-};
-
-type PostProps = {
-  post: Post;
-};
+import { PostProps, PostTemplate } from '../../templates/Post';
 
 export default function Post({ post }: PostProps): JSX.Element {
   const { isFallback } = useRouter();
@@ -74,6 +52,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       post,
     },
-    revalidate: 60 * 60,
+    revalidate: 60 * 60 * 24, // 1 day
   };
 };

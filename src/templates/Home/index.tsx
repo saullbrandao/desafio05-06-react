@@ -21,12 +21,13 @@ type PostPagination = {
   results: Post[];
 };
 
-type HomeProps = {
+export type HomeProps = {
   postsPagination: PostPagination;
 };
 
 export const HomeTemplate = ({ postsPagination }: HomeProps): JSX.Element => {
   const { next_page, results } = postsPagination;
+
   const [posts, setPosts] = useState(results);
   const [nextPage, setNextPage] = useState(next_page);
 
@@ -36,7 +37,7 @@ export const HomeTemplate = ({ postsPagination }: HomeProps): JSX.Element => {
     const response = await fetch(next_page);
     const data = await response.json();
 
-    const formattedPosts = data.results.map(post => {
+    const formattedPosts = data.results.map((post: Post) => {
       return {
         uid: post.uid,
         first_publication_date: post.first_publication_date,
@@ -67,6 +68,7 @@ export const HomeTemplate = ({ postsPagination }: HomeProps): JSX.Element => {
                 </a>
               </Link>
               <p>{post.data.subtitle}</p>
+
               <div className={styles.info}>
                 <FiCalendar size={20} />
                 <time>
@@ -78,7 +80,6 @@ export const HomeTemplate = ({ postsPagination }: HomeProps): JSX.Element => {
                     }
                   )}
                 </time>
-
                 <FiUser size={20} />
                 <span>{post.data.author}</span>
               </div>

@@ -26,7 +26,7 @@ type Post = {
   };
 };
 
-type PostProps = {
+export type PostProps = {
   post: Post;
 };
 
@@ -50,6 +50,7 @@ export const PostTemplate = ({ post }: PostProps): JSX.Element => {
 
         <article className={styles.container}>
           <h1>{post.data.title}</h1>
+
           <div className={styles.info}>
             <FiCalendar size={20} />
             <time>
@@ -57,12 +58,12 @@ export const PostTemplate = ({ post }: PostProps): JSX.Element => {
                 locale: ptBR,
               })}
             </time>
-
             <FiUser size={20} />
             <span>{post.data.author}</span>
             <FiClock size={20} />
             <span>{estimatedReadingTime} min</span>
           </div>
+
           {post.data.content.map(content => (
             <section
               className={styles.content}
