@@ -1,38 +1,60 @@
-// import { GetStaticProps } from 'next';
+import { GetStaticProps } from 'next';
 
+import Prismic from '@prismicio/client';
 import { HomeTemplate } from '../templates/Home';
+import { getPrismicClient } from '../services/prismic';
 
-// import { getPrismicClient } from '../services/prismic';
+type Post = {
+  uid?: string;
+  first_publication_date: string | null;
+  data: {
+    title: string;
+    subtitle: string;
+    author: string;
+  };
+};
 
-// import commonStyles from '../styles/common.module.scss';
-// import styles from './home.module.scss';
+type PostPagination = {
+  next_page: string;
+  results: Post[];
+};
 
-// interface Post {
-//   uid?: string;
-//   first_publication_date: string | null;
-//   data: {
-//     title: string;
-//     subtitle: string;
-//     author: string;
-//   };
-// }
+type HomeProps = {
+  postsPagination: PostPagination;
+};
 
-// interface PostPagination {
-//   next_page: string;
-//   results: Post[];
-// }
-
-// interface HomeProps {
-//   postsPagination: PostPagination;
-// }
-
-export default function Home(): JSX.Element {
-  return <HomeTemplate />;
+export default function Home({ postsPagination }: HomeProps): JSX.Element {
+  return <HomeTemplate postsPagination={postsPagination} />;
 }
 
-// export const getStaticProps = async () => {
-//   // const prismic = getPrismicClient();
-//   // const postsResponse = await prismic.query(TODO);
+export const getStaticProps: GetStaticProps = async () => {
+  const prismic = getPrismicClient();
+  const postsResponse = await prismic.query(
+    [Prismic.predicates.at('document.type', 'post')],
+    {
+      fetch: ['post/title', 'post/content'],
+      pageSize: 1,
+    }
+  );
 
-//   // TODO
-// };
+  const results = postsResponse.results.map(post => {
+    return {
+      uid: post.uid,
+      first_publication_date: post.first_publication_date,
+      data: {
+        title: post.data.title,
+        subtitle: post.data.subtitle,
+        author: post.data.author,
+      },
+    };
+  });
+
+  return {
+    props: {
+      postsPagination: {
+        next_page: postsResponse.next_page,
+        results,
+      },
+    },
+  };
+};
