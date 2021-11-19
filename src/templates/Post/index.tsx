@@ -2,6 +2,7 @@
 import format from 'date-fns/format';
 import { ptBR } from 'date-fns/locale';
 import Head from 'next/head';
+import Image from 'next/image';
 import { RichText } from 'prismic-dom';
 import { FiCalendar, FiClock, FiUser } from 'react-icons/fi';
 import { readingTime } from '../../utils/readingTime';
@@ -38,11 +39,14 @@ export const PostTemplate = ({ post }: PostProps): JSX.Element => {
         <title>Post | spacetraveling</title>
       </Head>
       <main>
-        <img
-          className={styles.banner}
-          src={post.data.banner.url}
-          alt={post.data.banner.alt}
-        />
+        <div className={styles.banner}>
+          <Image
+            layout="fill"
+            objectFit="cover"
+            src={post.data.banner.url}
+            alt={post.data.banner.alt}
+          />
+        </div>
 
         <article className={styles.container}>
           <h1>{post.data.title}</h1>
