@@ -3,6 +3,7 @@ import format from 'date-fns/format';
 import { ptBR } from 'date-fns/locale';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import { RichText } from 'prismic-dom';
 import { FiCalendar, FiClock, FiUser } from 'react-icons/fi';
 import { Comments } from '../../components/Comments';
@@ -12,6 +13,14 @@ import styles from './styles.module.scss';
 type Post = {
   first_publication_date: string | null;
   last_publication_date: string | null;
+  previous_post: {
+    uid: string | null;
+    title: string | null;
+  };
+  next_post: {
+    uid: string | null;
+    title: string | null;
+  };
   data: {
     title: string;
     banner: {
@@ -89,6 +98,28 @@ export const PostTemplate = ({ post }: PostProps): JSX.Element => {
               />
             </section>
           ))}
+          <footer className={styles.navigation}>
+            {post.previous_post.uid ? (
+              <div className={styles.previousPage}>
+                <span>{post.previous_post.title}</span>
+                <Link href={`/post/${post.previous_post.uid}`}>
+                  <a>Post Anterior</a>
+                </Link>
+              </div>
+            ) : (
+              <div />
+            )}
+            {post.next_post.uid ? (
+              <div className={styles.nextPage}>
+                <span>{post.next_post.title}</span>
+                <Link href={`/post/${post.next_post.uid}`}>
+                  <a>Próximo Post</a>
+                </Link>
+              </div>
+            ) : (
+              <div />
+            )}
+          </footer>
         </article>
         <Comments />
       </main>

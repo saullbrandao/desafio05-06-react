@@ -35,9 +35,37 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const prismic = getPrismicClient();
   const response = await prismic.getByUID('post', String(slug), {});
 
+  const postsResponse = await prismic.query('', {
+    orderings: '[document.last_publication_date desc]',
+  });
+
+  const currentPostindex = postsResponse.results.findIndex(
+    post => post.uid === slug
+  );
+
   const post = {
     first_publication_date: response.first_publication_date,
     last_publication_date: response.last_publication_date,
+    next_post: {
+      uid:
+        currentPostindex > 0
+          ? postsResponse.results[currentPostindex - 1].uid
+          : null,
+      title:
+        currentPostindex > 0
+          ? postsResponse.results[currentPostindex - 1].data.title
+          : null,
+    },
+    previous_post: {
+      uid:
+        currentPostindex < postsResponse.results.length - 1
+          ? postsResponse.results[currentPostindex + 1].uid
+          : null,
+      title:
+        currentPostindex < postsResponse.results.length - 1
+          ? postsResponse.results[currentPostindex + 1].data.title
+          : null,
+    },
     data: {
       title: response.data.title,
       banner: {
