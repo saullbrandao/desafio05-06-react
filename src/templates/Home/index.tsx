@@ -34,7 +34,7 @@ export const HomeTemplate = ({ postsPagination }: HomeProps): JSX.Element => {
   const loadMorePosts = async (): Promise<void> => {
     if (!nextPage) return;
 
-    const response = await fetch(next_page);
+    const response = await fetch(nextPage);
     const data = await response.json();
 
     const formattedPosts = data.results.map((post: Post) => {
