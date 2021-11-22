@@ -35,6 +35,15 @@
   }
 }
 
+.lastUpdated {
+  display: inline-block;
+  font-size: 1.4rem;
+  line-height: 1.7rem;
+  color: var(--gray-200);
+  font-style: italic;
+  margin-top: 1.6rem;
+}
+
 .content {
   margin-top: 6.4rem;
 

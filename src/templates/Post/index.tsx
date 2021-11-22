@@ -11,6 +11,7 @@ import styles from './styles.module.scss';
 
 type Post = {
   first_publication_date: string | null;
+  last_publication_date: string | null;
   data: {
     title: string;
     banner: {
@@ -64,6 +65,16 @@ export const PostTemplate = ({ post }: PostProps): JSX.Element => {
             <FiClock size={20} />
             <span>{estimatedReadingTime} min</span>
           </div>
+          <span className={styles.lastUpdated}>
+            * editado em{' '}
+            {format(
+              new Date(post.last_publication_date),
+              "dd MMM yyyy, 'às' HH:mm",
+              {
+                locale: ptBR,
+              }
+            )}
+          </span>
 
           {post.data.content.map(content => (
             <section
