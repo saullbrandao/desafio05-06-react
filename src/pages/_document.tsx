@@ -1,5 +1,7 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 
+const repoName = process.env.REPO_NAME;
+
 export default class MyDocument extends Document {
   render(): JSX.Element {
     return (
@@ -11,6 +13,11 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
           <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+          <script
+            async
+            defer
+            src={`//static.cdn.prismic.io/prismic.js?repo=${repoName}&new=true`}
+          />
         </Head>
         <body>
           <Main />

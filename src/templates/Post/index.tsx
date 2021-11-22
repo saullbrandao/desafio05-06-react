@@ -10,7 +10,8 @@ import { Comments } from '../../components/Comments';
 import { readingTime } from '../../utils/readingTime';
 import styles from './styles.module.scss';
 
-type Post = {
+export type Post = {
+  id: string;
   first_publication_date: string | null;
   last_publication_date: string | null;
   previous_post: {
@@ -37,11 +38,15 @@ type Post = {
   };
 };
 
-export type PostProps = {
+type PostProps = {
   post: Post;
+  preview: boolean;
 };
 
-export const PostTemplate = ({ post }: PostProps): JSX.Element => {
+export const PostTemplate = ({
+  post,
+  preview = false,
+}: PostProps): JSX.Element => {
   const estimatedReadingTime = readingTime(post.data.content);
 
   return (
@@ -122,6 +127,14 @@ export const PostTemplate = ({ post }: PostProps): JSX.Element => {
           </footer>
         </article>
         <Comments />
+
+        {preview && (
+          <aside className={styles.exitPreview}>
+            <Link href="/api/exit-preview">
+              <a>Sair do modo Preview</a>
+            </Link>
+          </aside>
+        )}
       </main>
     </>
   );

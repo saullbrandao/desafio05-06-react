@@ -1,0 +1,17 @@
+.container {
+  text-align: center;
+  margin: 0 auto;
+  padding: 100px 0 100px 0;
+  max-width: var(--contentWidth);
+
+  a {
+    display: inline-block;
+    color: var(--pink-500);
+    transition: filter 0.2s;
+    margin-top: 2rem;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
+  }
+}
