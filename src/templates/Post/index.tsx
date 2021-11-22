@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { RichText } from 'prismic-dom';
 import { FiCalendar, FiClock, FiUser } from 'react-icons/fi';
+import { Comments } from '../../components/Comments';
 import { readingTime } from '../../utils/readingTime';
 import styles from './styles.module.scss';
 
@@ -78,6 +79,7 @@ export const PostTemplate = ({ post }: PostProps): JSX.Element => {
             </section>
           ))}
         </article>
+        <Comments />
       </main>
     </>
   );
